@@ -40,5 +40,10 @@ C_xu = Polyhedron('A', H_xu, 'b', h_xu).minHRep;
 C_xu = C_xu.intersect(dyn1.XU);
 C_xu.minHRep
 
+H_max = C_max.A;
+h_max = C_max.b;
+H_xu = C_xu.A;
+h_xu = C_xu.b;
+save alpha_filter_py.mat H_max H_xu h_max h_xu
 
 
