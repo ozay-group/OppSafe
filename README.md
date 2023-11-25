@@ -44,6 +44,13 @@ open run_experiments.m
 ```
 Then, follow the instructions in `run_experiments.m` to reproduce the results.
 
+For additional experiments with disturbances in truncated Gaussian distribution, run the following prompts in the workspace of MATLAB:
+```
+cd 'directory_of_this_repo/experiments/car_following'
+open run_experiments_gaussian.m
+```
+Then, follow the instructions in `run_experiments_gaussian.m` to reproduce the results.
+
 ### Lane Keeping Example
 Run the following prompts in the workspace of MATLAB:
 ```
