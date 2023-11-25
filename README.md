@@ -1,2 +1,0 @@
-# OppSafe
-Opportunistic Safety Controller
