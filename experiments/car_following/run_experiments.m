@@ -7,7 +7,7 @@ clc;clear all;close all;
 % governer in the paper
 % "Li, Nan, Yutong Li, and Ilya Kolmanovsky. "A Unified Safety Protection
 % and Extension Governor." arXiv preprint arXiv:2304.07984 (2023)".
-% This may take 10-20 mins. Otherwise, the precomputed RCIS will be loaded.
+% This may take 10-20 mins. Otherwise, the precomputed RCISs will be loaded.
 
 % compute_cis_cf
 % save("data/cf_k_filter_data_approx.mat");

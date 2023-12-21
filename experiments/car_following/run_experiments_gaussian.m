@@ -1,5 +1,5 @@
-% This file contains the code to reproduce the results in the response letter for
-% the car following example
+% This file contains the code to repeat the experiments in Section IV.A for
+% three different non-uniform disturbance distributions
 clc;clear all;close all;
 % we use precomputed RCIS and inital state samples
 load data/cf_k_filter_data_approx.mat

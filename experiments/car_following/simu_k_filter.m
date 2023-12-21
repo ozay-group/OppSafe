@@ -1,17 +1,23 @@
 function [safe_rate1, safe_rate2, safe_rate3]=simu_k_filter(dyn, dyn_, Safe, C_max, tX_xu, pre_tXk, X_inf, rd_list, x0, cont, fast_mode)
-% Simulate the lk with best effort control and Nan Li's safety extension RG
-% (reference governer version)
+% Simulate the car following example with opportunistic safety supervisor,
+% robust safety supervisor, and the safety extension RG outlined in 
+% Section V of the paper
+% "Li, Nan, Yutong Li, and Ilya Kolmanovsky. "A Unified Safety Protection
+% and Extension Governor." arXiv preprint arXiv:2304.07984 (2023)".
 % Input: 
 %       dyn (Dyn) --- original dynamics
 %       dyn_ (Dyn) --- alpha dynamics
 %       Safe --- original safe set
 %       C_max --- inv set of alpha dynamics
-%       rd_list --- list of rd
-%       x0 --- initial state
+%       tX_xu, pre_tXk, X_inf --- backward reachable sets and invariant
+%                                 sets used by Nan's method 
+%       rd_list --- list of disturbances
+%       x0 --- initial states
 %       cont --- controller 
-%       fast_mode --- 
+%       fast_mode --- set True only if all entries in rd_list are within
+%                     the disturbance set used to compute RCISs
 
-%% simulation (best effort)
+%% simulation (opportunistic safety supervisor)
 safe_cnt = 1;
 N = length(rd_list);
 X_list1 = zeros(2, N);
@@ -47,7 +53,7 @@ for i = 1:N-1
 end
 
 safe_rate1 = safe_cnt / N;
-%% simulation (with k filter)
+%% simulation (Nan's method)
 safe_cnt = 1;
 % input_cnt = 0;
 
@@ -80,7 +86,7 @@ end
 
 safe_rate2 = safe_cnt / N;
 
-%% simulation (without best effort)
+%% simulation (robust safety supervisor)
 safe_cnt = 1;
 % input_cnt = 0;
 
