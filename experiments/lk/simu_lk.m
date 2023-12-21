@@ -1,16 +1,18 @@
 function [safe_rate1, safe_rate2]=simu_lk(dyn, dyn_, Safe, C_max, rd_list, x0, cont, fast_mode)
-% Simulate the lk with best effort control
+% Simulate the lane keeping example with opportunistic safety supervisor,
+% and robust safety supervisor.
 % Input: 
 %       dyn (Dyn) --- original dynamics
 %       dyn_ (Dyn) --- alpha dynamics
 %       Safe --- original safe set
 %       C_max --- inv set of alpha dynamics
-%       rd_list --- list of rd
-%       x0 --- initial state
+%       rd_list --- list of disturbances
+%       x0 --- initial states
 %       cont --- controller 
-%       fast_mode --- 
+%       fast_mode --- set True only if all entries in rd_list are within
+%                     the disturbance set used to compute RCISs
 
-%% simulation (best effort)
+%% simulation (opportunistic safety supervisor)
 safe_cnt = 1;
 N = length(rd_list);
 X_list1 = zeros(4, N);
@@ -46,7 +48,7 @@ for i = 1:N-1
 end
 
 safe_rate1 = safe_cnt / N;
-%% simulation (without best effort)
+%% simulation (robust safety supervisor)
 safe_cnt = 1;
 % input_cnt = 0;
 

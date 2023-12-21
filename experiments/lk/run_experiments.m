@@ -3,11 +3,14 @@
 clc;clear all;close all;
 %% Compute required RCISs
 % Uncomment the following lines if you want to compute the RCISs used by
-% the robust safety supervisor, opportunistic supervisor. This step may 
-% take hours. Otherwise, the precomputed RCISs will be loaded.
+% the robust safety supervisor, opportunistic supervisor, and the safety
+% governer in the paper
+% "Li, Nan, Yutong Li, and Ilya Kolmanovsky. "A Unified Safety Protection
+% and Extension Governor." arXiv preprint arXiv:2304.07984 (2023)". 
+% This step may take hours. Otherwise, the precomputed RCISs will be loaded.
 
 % compute_cis_lk 
-% save data/lk_inv_set.mat C_max Safe Safe_ dyn dyn_ param
+% save data/lk_inv_set.mat C_max Safe Safe_ dyn dyn_ param tX_xu pre_tXk Xk X_inf
 
 %% Sample initial states with different alpha^*(x)
 % Uncomment the following lines if you want to resample the initial states 
@@ -30,6 +33,13 @@ clc;clear all;close all;
 load data/lk_inv_set.mat
 load data/init_state_pos_10a_1000slp.mat
 
+% Verify that X_inf in Nan's paper is empty. Thus the controller
+% from Nan's paper admits no RCIS.
+if (X_inf.isEmptySet) 
+    disp("Warning: X_inf is empty. Thus, the method in [13] provides " + ...
+        "no safety guarantees even if x is the maximal RCIS.")
+end
+
 N = 500; % simulation time
 % compute C_{max,0}
 C_max_0 = C_max.slice(size(C_max.A, 2), 0);
@@ -37,7 +47,7 @@ n_V = size(C_max_0.V,1);
 
 % synthesize a LQR controller
 K = dlqr(dyn.A, dyn.B, eye(1), 0);
-cont = @(x) controller(K, x);
+cont = @(x) -K*x;
 
 for rd_max = [0.08, 0.12, 0.16] % maximal disturbance size
     % iterate over different roads
